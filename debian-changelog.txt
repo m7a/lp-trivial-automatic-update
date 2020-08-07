@@ -1,0 +1,11 @@
+mdvl-trivial-automatic-update (1.1.0) stable; urgency=medium
+
+  * Upgrade from previous mdvl-trivial-automatic-update MDPC 1.0 package.
+
+ -- Linux-Fan, Ma_Sys.ma <Ma_Sys.ma@web.de>  Fri, 07 Aug 2020 23:33:24 +0200
+
+mdvl-trivial-automatic-update (1.0.0) stable; urgency=medium
+
+  * Package created with MDPC 2
+
+ -- Linux-Fan, Ma_Sys.ma <Ma_Sys.ma@web.de>  Fri, 07 Aug 2020 23:33:19 +0200

@@ -1,0 +1,8 @@
+[Unit]
+Description=Call automatic update now
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ma_trivial_automatic_update
+User=root
+Group=root

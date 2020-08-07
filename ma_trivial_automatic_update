@@ -1,0 +1,46 @@
+#!/bin/sh -e
+# Ma_Sys.ma Trivial Automatic Update 1.0.2, Copyright (c) 2017, 2019 Ma_Sys.ma.
+# For further info send an e-mail to Ma_Sys.ma@web.de.
+
+. /etc/ma_trivial_automatic_update.conf
+
+selmir=
+for i in $MIRRORLIST; do
+	if ping -w 1 -c 1 "$i" > /dev/null 2> /dev/null; then
+		selmir="$i"
+		break
+	fi
+done
+
+if [ -z "$selmir" ]; then
+	echo Error: No mirror found to be online.
+	exit 1
+else
+	debian_release="$(grep -E '^VERSION="' /etc/os-release | \
+				cut -d "(" -f 2 | cut -d ")" -f 1)"
+	echo "Performing trivial periodic update w/ ${selmir} for" \
+						"${debian_release}..."
+	if [ -f /tmp/sources.list ]; then
+		echo Found previous sources.list. Status unclear. \
+					Terminating as to avoid damage.
+		exit 1
+	fi
+	cp /etc/apt/sources.list /tmp/sources.list
+	disl=
+	[ "$USE_LTS" = 0 ] || disl="#"
+	cat > /etc/apt/sources.list <<EOF
+deb http://$selmir/debian/ $debian_release main contrib non-free
+${disl}deb http://$selmir/debian/ ${debian_release}-updates main contrib non-free
+deb http://security.debian.org/ ${debian_release}/updates main contrib non-free
+EOF
+	rc=0
+	apt-get update || rc=$?
+	if [ "$rc" = 0 ]; then
+		unattended-upgrades || rc=$?
+	fi
+	mv -f /tmp/sources.list /etc/apt/sources.list
+	if [ "$rc" != 0 ]; then
+		echo Subprocess failure code ${rc}.
+		exit $rc
+	fi
+fi

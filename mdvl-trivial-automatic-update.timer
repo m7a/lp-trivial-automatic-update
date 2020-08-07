@@ -1,0 +1,10 @@
+[Unit]
+Description=Call automatic update once per day
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=300s
+
+[Install]
+WantedBy=timers.target

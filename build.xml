@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="build">
+
+<!-- APPLICATION METADATA -->
+<property name="mdpc.name"    value="mdvl-trivial-automatic-update"/>
+<property name="mdpc.section" value="admin"/>
+<property name="mdpc.descrs"  value="Automatic Update Script"/>
+<property name="mdpc.arch"    value="all"/>
+<property name="mdpc.depends" value="unattended-upgrades"/>
+<property name="mdpc.descrl">
+ Enables invoking `unattended-upgrades` outside a cron context and permits
+ multiple mirrors where the first one to be online is chosen. This is
+ important to be able to upgrade a server from a local mirror which is
+ preferred if it is online but allow choosing another mirror for fallback.
+</property>
+
+<property name="mdpc.file.install">
+ma_trivial_automatic_update /usr/bin
+mdvl-trivial-automatic-update.service /lib/systemd/system
+mdvl-trivial-automatic-update.timer /lib/systemd/system
+ma_trivial_automatic_update.conf /etc
+</property>
+
+<!-- CI INTEGRATION -->
+<target name="package_triggered" depends="package">
+	<property name="masysma.ci.trigger" value="newver"/>
+</target>
+
+<!-- CONST TPL IMPORT -->
+<property environment="env"/>
+<condition property="masysma.internal.includepath.rel" value="${env.MDVL_CI_PHOENIX_ROOT}" else=".."><isset property="env.MDVL_CI_PHOENIX_ROOT"/></condition>
+<property name="masysma.internal.includepath" location="${masysma.internal.includepath.rel}"/>
+<property name="masysma.internal.loadpath" value="${masysma.internal.includepath}/co-build/ant-build-template.xml"/>
+<condition property="masysma.internal.load" value="file://${masysma.internal.loadpath}" else="https://raw.githubusercontent.com/m7a/co-build/master/ant-build-template.xml"><resourceexists><file file="${masysma.internal.loadpath}"/></resourceexists></condition>
+<import><url url="${masysma.internal.load}"/></import>
+
+</project>
