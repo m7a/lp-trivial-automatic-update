@@ -1,5 +1,5 @@
 #!/bin/sh -e
-# Ma_Sys.ma Trivial Automatic Update 1.0.2, Copyright (c) 2017, 2019 Ma_Sys.ma.
+# Ma_Sys.ma Trivial Automatic Update 1.0.3, Copyright (c) 2017, 2019, 2022 Ma_Sys.ma.
 # For further info send an e-mail to Ma_Sys.ma@web.de.
 
 . /etc/ma_trivial_automatic_update.conf
@@ -31,7 +31,7 @@ else
 	cat > /etc/apt/sources.list <<EOF
 deb http://$selmir/debian/ $debian_release main contrib non-free
 ${disl}deb http://$selmir/debian/ ${debian_release}-updates main contrib non-free
-deb http://security.debian.org/ ${debian_release}/updates main contrib non-free
+deb http://security.debian.org/ ${debian_release}-security main contrib non-free
 EOF
 	rc=0
 	apt-get update || rc=$?
