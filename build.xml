@@ -6,7 +6,7 @@
 <property name="mdpc.section" value="admin"/>
 <property name="mdpc.descrs"  value="Automatic Update Script"/>
 <property name="mdpc.arch"    value="all"/>
-<property name="mdpc.depends" value="unattended-upgrades iputils-ping"/>
+<property name="mdpc.depends" value="unattended-upgrades, iputils-ping"/>
 <property name="mdpc.descrl">
  Enables invoking `unattended-upgrades` outside a cron context and permits
  multiple mirrors where the first one to be online is chosen. This is
